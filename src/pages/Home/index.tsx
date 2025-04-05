@@ -1,12 +1,13 @@
 import { Coffee, Package, ShoppingCart, Timer } from '@phosphor-icons/react'
 import { useTheme } from 'styled-components'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+
 
 import { CoffeeCard } from '../../components/CoffeeCard'
-
 import { CoffeeList, Heading, Hero, HeroContent, Info } from './styles'
-import { useEffect } from 'react';
 
-interface Coffee {
+interface CoffeeData {
   id: string;
   title: string;
   description: string;
@@ -18,20 +19,41 @@ interface Coffee {
 
 export function Home() {
   const theme = useTheme();
+  const [coffees, setCoffees] = useState<CoffeeData[]>([]);
+
 
   useEffect(() => {
-    // request para a API para pegar os cafés
-    // e setar no estado
+    axios.get<CoffeeData[]>('http://localhost:3000/coffees')
+      .then(response => {
+        setCoffees(response.data)
+      })
+      .catch(error => {
+        console.error("Erro ao buscar cafés:", error)
+      });
   }, []);
 
-
-  
   function incrementQuantity(id: string) {
-    // Aqui você pode fazer a lógica para incrementar a quantidade do café
+    setCoffees(prev =>
+      prev.map(coffee =>
+        coffee.id === id && coffee.quantity < 5
+          ? { ...coffee, quantity: coffee.quantity + 1 }
+          : coffee
+      )
+    );
   }
 
   function decrementQuantity(id: string) {
-    // Aqui você pode fazer a lógica para decrementar a quantidade do café
+    setCoffees(prev =>
+      prev.map(coffee =>
+        coffee.id === id && coffee.quantity > 0
+          ? { ...coffee, quantity: coffee.quantity - 1 }
+          : coffee
+      )
+    );
+  }
+
+  function handleAddToCart(coffee: CoffeeData) {
+    console.log('Adicionar ao carrinho:', coffee)
   }
 
   return (
@@ -41,16 +63,14 @@ export function Home() {
           <div>
             <Heading>
               <h1>Encontre o café perfeito para qualquer hora do dia</h1>
-
               <span>
-                Com o Coffee Delivery você recebe seu café onde estiver, a
-                qualquer hora
+                Com o Coffee Delivery você recebe seu café onde estiver, a qualquer hora
               </span>
             </Heading>
 
             <Info>
               <div>
-                <ShoppingCart
+                <ShoppingCart     
                   size={32}
                   weight="fill"
                   color={theme.colors.background}
@@ -101,22 +121,17 @@ export function Home() {
         <h2>Nossos cafés</h2>
 
         <div>
-        {[1,2,3].map((coffee) => (
-            <CoffeeCard key={coffee} coffee={{
-              description: 'Café expresso tradicional com espuma cremosa',
-              id: '1',
-              image: "/images/coffees/expresso-cremoso.png",
-              price: 9.90,
-              tags: ['Tradicional', 'Comum'],
-              title: 'Expresso Tradicional',
-              quantity: 1,
-            }}
-            incrementQuantity={incrementQuantity}
-            decrementQuantity={decrementQuantity}
+          {coffees.map((coffee) => (
+            <CoffeeCard
+              key={coffee.id}
+              coffee={coffee}
+              incrementQuantity={incrementQuantity}
+              decrementQuantity={decrementQuantity}
+              onAddToCart={handleAddToCart}
             />
           ))}
         </div>
       </CoffeeList>
     </div>
-  )
+  );
 }

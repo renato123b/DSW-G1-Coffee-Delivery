@@ -49,26 +49,7 @@ export function Cart() {
       quantity: 1,
       subTotal: 6.90,
     },
-    {
-      id: "1",
-      title: "Expresso Americano",
-      description: "Expresso diluído, menos intenso que o tradicional",
-      tags: ["tradicional", "com leite"],
-      price: 9.95,
-      image: "/images/coffees/americano.png",
-      quantity: 2,
-      subTotal: 19.90,
-    },
-    {
-      id: "2",
-      title: "Expresso Cremoso",
-      description: "Café expresso tradicional com espuma cremosa",
-      tags: ["especial"],
-      price: 16.50,
-      image: "/images/coffees/expresso-cremoso.png",
-      quantity: 3,
-      subTotal: 49.50,
-    }
+    
   ]);
 
   const amountTags: string[] = [];
