@@ -1,7 +1,7 @@
   import { CheckFat, ShoppingCart } from '@phosphor-icons/react'
   import { useTheme } from 'styled-components'
   import { useEffect, useState } from 'react'
-
+//final
   import { QuantityInput } from '../Form/QuantityInput'
   import { useCart } from '../../hooks/useCart'
   import {
