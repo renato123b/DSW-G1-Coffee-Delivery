@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 
-import { CoffeeCard } from '../../components/CoffeeCard'
+import { Card } from '../../components/CoffeeCard'
 import { CoffeeList, Heading, Hero, HeroContent, Info } from './styles'
 
 interface CoffeeData {
@@ -122,13 +122,11 @@ export function Home() {
 
         <div>
           {coffees.map((coffee) => (
-            <CoffeeCard
-              key={coffee.id}
-              coffee={coffee}
-              incrementQuantity={incrementQuantity}
-              decrementQuantity={decrementQuantity}
-              onAddToCart={handleAddToCart}
-            />
+            <Card
+            key={coffee.id}
+            coffee={coffee}
+          />
+          
           ))}
         </div>
       </CoffeeList>

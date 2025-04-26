@@ -123,7 +123,6 @@ export const Coffee = styled.div`
 export const CoffeeInfo = styled.div`
   display: flex;
   gap: 8px;
-  margin-top: 8px;
 
   > button {
     padding: 6px 8px;
